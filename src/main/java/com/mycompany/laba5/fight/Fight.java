@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.mycompany.laba5.fight;
 
 
@@ -12,10 +16,14 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 
-
+/**
+ *
+ * @author Мария
+ */
 public class Fight {
 
     private Player human;
@@ -180,10 +188,13 @@ public class Fight {
             rb.setText(items[2].getName() + ", " + items[2].getCount() + " шт");
             label7.setText("Вы воскресли");
         }
+       
+        
         if (human.getHealth() <= 0 | enemy.getHealth() <= 0) {
-            if (levelCount == 0) {
+            if (levelCount == 0 || human.getHealth()<=0) {
                 EndFinalRound(((Human) human), action, results, dialog1, dialog2,
-                        frame, label4, label5);
+                        frame, label4, label5, items);
+                
             } else {
                 EndRound(human, enemy, dialog, label3, action, items,  optionBox, newLevelLabel );
             }
@@ -196,6 +207,7 @@ public class Fight {
         dialog.setVisible(true);
         dialog.setBounds(300, 150, 700, 600);
         if (human.getHealth() > 0) {
+            
             label.setText("You win");
             ((Human) human).setWin();
 
@@ -221,19 +233,21 @@ public class Fight {
         i = 1;
         k = -1;
         kind_attack = ResetAttack();
+        
 
     }
 
     public void EndFinalRound(Human human, CharacterAction action,
             ArrayList<Result> results, JDialog dialog1, JDialog dialog2, JFrame frame,
-            JLabel label1, JLabel label2) {
+            JLabel label1, JLabel label2, Items[] items) {
         String text = "Победа не на вашей стороне";
+         
         if (human.getHealth() > 0) {
             human.setWin();
             action.AddPoints(human, action.getEnemyes());
             text = "Победа на вашей стороне";
         }
-        boolean top = false;
+         boolean top = false;
         if (results == null) {
             top = true;
         } else {
@@ -247,7 +261,9 @@ public class Fight {
                 top = true;
             }
         }
-        if (top) {
+        
+      
+            if (top) {
             dialog1.setVisible(true);
             dialog1.setBounds(150, 150, 600, 500);
             label1.setText(text);
@@ -257,7 +273,14 @@ public class Fight {
             label2.setText(text);
         }
         frame.dispose();
-    }
+        }
+        
+            
+        
+        
+       
+        
+    
 
     public int[] ResetAttack() {
         int a[] = {0};
@@ -267,7 +290,7 @@ public class Fight {
     public Player NewRound(Player human, JLabel label, JProgressBar pr1,
             JProgressBar pr2, JLabel label2, JLabel text, JLabel label3, CharacterAction action) {
         this.human = human;
-        System.out.println(levelCount);
+        
         Player enemy1 = null;
         if (levelCount == 1) {
             enemy = action.ChooseBoss(label, label2, text, label3, human.getLevel(), human);
@@ -299,7 +322,7 @@ public class Fight {
             
             currentLocationsCount++;
             levelCount = (int) (Math.random()*3) + human.getLevel() + 1;
-            System.out.println("Level count:  " + levelCount);
+           
              
         }
 
